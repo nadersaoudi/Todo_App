@@ -9,4 +9,4 @@ exports.validate= (req, res, next)=>{
     next()
 }
 
-exports.isObjectId = (valur) => mongoose.Types.ObjectId.isValid(value)
+exports.isObjectId = (value) => mongoose.Types.ObjectId.isValid(value)
