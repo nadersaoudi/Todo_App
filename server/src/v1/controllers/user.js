@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const CryptoJs = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
-const { findOne } = require("../models/user");
 
 //Register User
 exports.register = async (req, res) => {
@@ -27,16 +26,18 @@ exports.register = async (req, res) => {
 
 //login User
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body
   try {
-    const user = await findOne({ username }).select("password");
+    const user = await User.findOne({ username }).select('password username')
     if (!user) {
       return res.status(401).json({
-        errors: {
-          params: "username",
-          msg: "Invalid Username or Password",
-        },
-      });
+        errors: [
+          {
+            param: 'username',
+            msg: 'Invalid username or password'
+          }
+        ]
+      })
     }
 
     const decryptPassword = CryptoJs.AES.decrypt(
@@ -52,16 +53,17 @@ exports.login = async (req, res) => {
       });
     }
 
-    user.password = undefined;
+    user.password = undefined
 
     const token = jsonwebtoken.sign(
-      {
-        id: user._id,
-      },
+      { id: user._id },
       process.env.TOKEN_SECRET_KEY,
-      { expiresIn: "1h" }
-    );
+      { expiresIn: '24h' }
+    )
 
-    res.status(200).json({ user, token });
-  } catch (err) {}
-};
+    res.status(200).json({ user, token })
+
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
