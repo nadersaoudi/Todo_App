@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
     const token = jsonwebtoken.sign(
       { id: user._id },
       process.env.TOKEN_SECRET_KEY,
-      { expiresIn: '24h' }
+      { expiresIn: '1h' }
     )
 
     res.status(200).json({ user, token })

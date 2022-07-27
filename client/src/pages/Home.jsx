@@ -1,11 +1,23 @@
-import React from 'react'
+import { Box } from "@mui/material";
+import React from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const Home = () => {
+  const createBoard = () => {};
   return (
-    <div>
-      hello
-    </div>
-  )
-}
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <LoadingButton variant="outlined" color="info" onClick={createBoard}>
+        Click here to create your first board
+      </LoadingButton>
+    </Box>
+  );
+};
 
-export default Home
+export default Home;
